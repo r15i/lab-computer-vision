@@ -1,2 +1,4 @@
 #ignoring the folder with the data and his backups
 .main project\data_list.xml
+#ignoring the folder with the data and his backups
+data/
