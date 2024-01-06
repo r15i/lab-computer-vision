@@ -1,0 +1,3 @@
+#ignoring the folder with the data and his backups
+main project\data\
+.main project\data_list.xml
