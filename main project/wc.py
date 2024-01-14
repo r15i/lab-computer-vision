@@ -25,12 +25,21 @@ class HistogramClassifier(nn.Module):
 
 
 print("Weather Predictior")
+
+data = ut.loadDataset()
+
+""" 
+# for command line argouments
+# specify if want the path of the dataset
+# default path is still ./data
 if sys.argv == 2:
     data = ut.loadDataset(sys.argv[1],0)
+if sys.argv == 1:
+    data = ut.loadDataset()
 else:
     print("usage python wc.py path/to/data")
+ """
 exit()
-
 
 # Carica i dati di addestramento e di test
 transform = transforms.Compose(

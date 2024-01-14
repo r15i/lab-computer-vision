@@ -1,60 +1,66 @@
-<dataset>
-    <name>Multi-class weather dataset (MWD)</name>
-    <short_name>MWD</short_name>
-    <path>data\MWD</path>
-    <size>XX GB</size>
-    <num_photos>1125</num_photos>
-    <description>
-Provides 1125 images divided into 4 classes as in the table
-? You can use the training set to train ML classifiers
-? Relatively easy, a good accuracy can be reached
-? The data has been divided into 75% for training and 25% for testing
-    </description>
-    <link>https://drive.google.com/open?id=1zJtLsAtdDXKBgBpupqw4YhUH0TyB-GBP&amp;usp=drive_fs</link>
-</dataset>
+<datasets>
+    <dataset>
+        <!-- Dataset 1 -->
+        <name>Multi-class weather dataset (MWD)</name>
+        <short_name>MWD</short_name>
+        <path>data\MWD</path>
+        <size>XX GB</size>
+        <num_photos>1125</num_photos>
+        <description>
+            Provides 1125 images divided into 4 classes as in the table.
+            You can use the training set to train ML classifiers.
+            Relatively easy, a good accuracy can be reached.
+            The data has been divided into 75% for training and 25% for testing.
+        </description>
+        <link>https://drive.google.com/openid=1zJtLsAtdDXKBgBpupqw4YhUH0TyB-GBP&amp;usp=drive_fs</link>
+    </dataset>
 
-<dataset>
-    <name>ACDC dataset</name>
-    <short_name>ACDC</short_name>
-    <path>data\ACDC</path>
-    <size>YY GB</size>
-    <num_photos>1500</num_photos>
-    <description>
-    Provides 1500 images divided into 5 classes as in the table
-? Acquired in an autonomous driving setting
-? A bit more challenging but more data available
-? The data has been divided into 2/3 for training and 1/3 for testing
-    </description>
-    <link>https://drive.google.com/file/d/1zLieQfvP_6C3pkt0FKC1kmMKtXv2Nimt/view?usp=sharing</link>
-</dataset>
+    <dataset>
+        <!-- Dataset 2 -->
+        <name>ACDC dataset</name>
+        <short_name>ACDC</short_name>
+        <path>data\ACDC</path>
+        <size>YY GB</size>
+        <num_photos>1500</num_photos>
+        <description>
+            Provides 1500 images divided into 5 classes as in the table.
+            Acquired in an autonomous driving setting.
+            A bit more challenging but more data available.
+            The data has been divided into 2/3 for training and 1/3 for testing.
+        </description>
+        <link>https://drive.google.com/file/d/1zLieQfvP_6C3pkt0FKC1kmMKtXv2Nimt/viewusp=sharing</link>
+    </dataset>
 
-<dataset>
-    <name>UAVid</name>
-    <short_name>UAVid</short_name>
-    <path>data\syndrone_weather\syndrone</path>
-    <size>ZZ GB</size>
-    <num_photos>120</num_photos>
-    <description>Provides 120 images divided into 4 classes as in the table
-? Aerial imagery, the sky is less visible!
-? Relatively easy, but small amount of data available, avoid overfitting!
-? The data has been divided into 2/3 for training and 1/3 for testing 
-    </description>
-    <link>https://drive.google.com/file/d/1zKCUXF7wltISTpxd9pW3MLHG6egICvYN/view?usp=sharing</link>
-</dataset>
+    <dataset>
+        <!-- Dataset 3 -->
+        <name>UAVid</name>
+        <short_name>UAVid</short_name>
+        <path>data\syndrone_weather\syndrone</path>
+        <size>ZZ GB</size>
+        <num_photos>120</num_photos>
+        <description>
+            Provides 120 images divided into 4 classes as in the table.
+            Aerial imagery, the sky is less visible!
+            Relatively easy, but a small amount of data available, avoid overfitting!
+            The data has been divided into 2/3 for training and 1/3 for testing.
+        </description>
+        <link>https://drive.google.com/file/d/1zKCUXF7wltISTpxd9pW3MLHG6egICvYN/viewusp=sharing</link>
+    </dataset>
 
-<dataset>
-    <name>SYNDRONE</name>
-    <short_name>SYNDRONE</short_name>
-    <path>data\UAVid</path>
-    <size>WW GB</size>
-    <num_photos>1200</num_photos>
-? Provides 1200 images divided into 4 classes as in the table
-? Aerial imagery but bigger than UAVid
-? Same classes as UAVid, you can test transfer by training on one and
-test on the other
-? Relatively easy, a good accuracy can be reached
-? The data has been divided into 400 for test and 800 for training
-    <description></description>
-    <link>https://drive.google.com/file/d/1zOevapI-HyJo_-fDnBqK2Viy1_9o4L0E/view?usp=sharing</link>
-</dataset>
-
+    <dataset>
+        <!-- Dataset 4 -->
+        <name>SYNDRONE</name>
+        <short_name>SYNDRONE</short_name>
+        <path>data\UAVid</path>
+        <size>WW GB</size>
+        <num_photos>1200</num_photos>
+        <description>
+            Provides 1200 images divided into 4 classes as in the table.
+            Aerial imagery but bigger than UAVid.
+            Same classes as UAVid, you can test transfer by training on one and test on the other.
+            Relatively easy, a good accuracy can be reached.
+            The data has been divided into 400 for the test and 800 for training.
+        </description>
+        <link>https://drive.google.com/file/d/1zOevapI-HyJo_-fDnBqK2Viy1_9o4L0E/viewusp=sharing</link>
+    </dataset>
+</datasets>
