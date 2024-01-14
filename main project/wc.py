@@ -26,7 +26,14 @@ class HistogramClassifier(nn.Module):
 
 print("Weather Predictior")
 
-data = ut.loadDataset()
+
+train_paths,test_paths = ut.loadPaths()
+
+index_dataset = 0
+train_path,test_path = train_paths[index_dataset],test_paths[index_dataset]
+
+print(f"train_path {train_path}\ntest_paths {test_path}")
+
 
 """ 
 # for command line argouments
@@ -39,26 +46,35 @@ if sys.argv == 1:
 else:
     print("usage python wc.py path/to/data")
  """
-exit()
 
 # Carica i dati di addestramento e di test
+
+
 transform = transforms.Compose(
     [
         transforms.Resize((128, 128)),
     ]
 )
 
-train_dataset = datasets.ImageFolder(root="path/to/train_data", transform=transform)
-test_dataset = datasets.ImageFolder(root="path/to/test_data", transform=transform)
+print(f"tranform used \n\n {transform}")
+
+# train path needs to be the 
+train_dataset = datasets.ImageFolder(root=train_path, transform=transform)
+test_dataset = datasets.ImageFolder(root=test_path, transform=transform)
+
 
 train_loader = DataLoader(train_dataset, batch_size=32, shuffle=True)
 test_loader = DataLoader(test_dataset, batch_size=32, shuffle=False)
+
+
 
 # Imposta parametri della rete e dell'addestramento
 input_size = 256 * 256 * 256  # Dimensione dell'istogramma
 hidden_size = 128
 output_size = 3  # 3 classi di tempo
 learning_rate = 0.001
+
+
 
 # Inizializza il modello
 model = HistogramClassifier(input_size, hidden_size, output_size)

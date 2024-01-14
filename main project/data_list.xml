@@ -3,7 +3,7 @@
         <!-- Dataset 1 -->
         <name>Multi-class weather dataset (MWD)</name>
         <short_name>MWD</short_name>
-        <path>data\MWD</path>
+        <path>data\MWD\MWD</path>
         <size>XX GB</size>
         <num_photos>1125</num_photos>
         <description>
@@ -19,7 +19,7 @@
         <!-- Dataset 2 -->
         <name>ACDC dataset</name>
         <short_name>ACDC</short_name>
-        <path>data\ACDC</path>
+        <path>data\ACDC\ACDC</path>
         <size>YY GB</size>
         <num_photos>1500</num_photos>
         <description>
@@ -51,7 +51,7 @@
         <!-- Dataset 4 -->
         <name>SYNDRONE</name>
         <short_name>SYNDRONE</short_name>
-        <path>data\UAVid</path>
+        <path>data\UAVid\UAVid</path>
         <size>WW GB</size>
         <num_photos>1200</num_photos>
         <description>

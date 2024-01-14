@@ -9,21 +9,27 @@ from torchvision import datasets, transforms
 #to load the the xml 
 import xml.etree.ElementTree as ET
 
-data_list_path = "data_list.xml"
 
-def loadDataset(index=0):
+
+def loadPaths(index=0, data_list_path="data_list.xml"):
+    
     # load data from the xml
-
     data_list = ET.parse(data_list_path)
     root = data_list.getroot()
+    
+    train_paths,test_paths = [],[]
 
-    for item in root.findall('item'):
-        name = item.get('name')
-        value = item.text
-        print(f"{name}: {value}")
+    for item in root.findall('dataset'):
+        path = item.find('path').text
+        train_paths.append(path + "\\train")
+        test_paths.append(path + "\\test")
 
 
-    return 0
+    return train_paths,test_paths
+
+
+
+
 
 
 
