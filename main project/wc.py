@@ -6,9 +6,12 @@ import torch.optim as optim
 from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
 
+
+
 # personal imports
 import utils as ut
 import sys
+import tqdm
 
 
 # Definisci una semplice rete neurale completamente connessa
@@ -24,13 +27,15 @@ class HistogramClassifier(nn.Module):
         return x
 
 
+
+
 print("Weather Predictior")
 
 
-train_paths,test_paths = ut.loadPaths()
+train_paths, test_paths = ut.loadPaths()
 
 index_dataset = 0
-train_path,test_path = train_paths[index_dataset],test_paths[index_dataset]
+train_path, test_path = train_paths[index_dataset], test_paths[index_dataset]
 
 print(f"train_path {train_path}\ntest_paths {test_path}")
 
@@ -49,7 +54,7 @@ else:
 
 # Carica i dati di addestramento e di test
 
-
+# list of trasformation of each image
 transform = transforms.Compose(
     [
         transforms.Resize((128, 128)),
@@ -58,14 +63,36 @@ transform = transforms.Compose(
 
 print(f"tranform used \n\n {transform}")
 
-# train path needs to be the 
+# train path needs to be the
 train_dataset = datasets.ImageFolder(root=train_path, transform=transform)
 test_dataset = datasets.ImageFolder(root=test_path, transform=transform)
 
+# compute the histogram for each image
 
-train_loader = DataLoader(train_dataset, batch_size=32, shuffle=True)
-test_loader = DataLoader(test_dataset, batch_size=32, shuffle=False)
 
+for inputs, labels in train_loader:
+    # Calcola l'istogramma per ciascuna immagine nel minibatch
+    histograms = torch.tensor([ut.calculate_histogram(np.array(img)) for img in inputs])
+
+    # Appiattisci l'istogramma e convertilo in tensor
+    histograms = histograms.view(-1, input_size).float()
+
+    # Azzera i gradienti
+    optimizer.zero_grad()
+
+    # Esegui l'inoltro (forward)
+    outputs = model(histograms)
+
+    # Calcola la perdita
+    loss = criterion(outputs, labels)
+
+    # Esegui la retropropagazione (backward) e l'ottimizzazione
+    loss.backward()
+    optimizer.step()
+
+exit()
+train_loader = DataLoader(dataset=train_dataset, batch_size=32, shuffle=True)
+test_loader = DataLoader(dataset=test_dataset, batch_size=32, shuffle=False)
 
 
 # Imposta parametri della rete e dell'addestramento
@@ -74,14 +101,12 @@ hidden_size = 128
 output_size = 3  # 3 classi di tempo
 learning_rate = 0.001
 
-
-
 # Inizializza il modello
 model = HistogramClassifier(input_size, hidden_size, output_size)
-
 # Definisci la funzione di perdita e l'ottimizzatore
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.Adam(model.parameters(), lr=learning_rate)
+
 
 # Addestra il modello
 num_epochs = 10
@@ -89,7 +114,7 @@ for epoch in range(num_epochs):
     for inputs, labels in train_loader:
         # Calcola l'istogramma per ciascuna immagine nel minibatch
         histograms = torch.tensor(
-            [calculate_histogram(np.array(img)) for img in inputs]
+            [ut.calculate_histogram(np.array(img)) for img in inputs]
         )
 
         # Appiattisci l'istogramma e convertilo in tensor
@@ -108,6 +133,8 @@ for epoch in range(num_epochs):
         loss.backward()
         optimizer.step()
 
+
+exit()
 # Valuta il modello
 correct = 0
 total = 0
