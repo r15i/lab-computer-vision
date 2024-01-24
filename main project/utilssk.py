@@ -3,6 +3,7 @@ import cv2
 import numpy as np
 import xml.etree.ElementTree as ET
 import matplotlib.pyplot as plt
+from tqdm import tqdm
 
 DEBUG = True
 
@@ -34,7 +35,7 @@ def load_images_by_label(root_directory, dataset_type):
     if os.path.isdir(label_path):
         # dprint(label_path)
         # aggiungere caso in cui si hanno sottocartelle
-        for image_file in os.listdir(label_path):
+        for image_file in tqdm(os.listdir(label_path), desc=f"Loading Images for {dataset_type+" set"}"):
             # find a better way to say only photos
             if image_file == "desktop.ini":
                 continue
@@ -43,9 +44,18 @@ def load_images_by_label(root_directory, dataset_type):
             labels.append(image_file)
             images.append(cv2.imread(image_path))
 
-    # parser only for UAVid every format label_num.png
     filename = labels
-    labels = [l.split("_")[0] for l in labels]
+    
+    
+    if(root_directory.split("\\")[-1]=="MWD"):
+        names = ["cloudy","shine","rain","sunrise"]
+        for i in range(len(labels)):
+            for j in names:
+                if j in labels[i]:
+                    labels[i] = j
+
+    else:
+        labels = [l.split("_")[0] for l in labels]
 
     # dprint(np.unique(labels, return_counts=True))
 
