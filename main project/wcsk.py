@@ -127,6 +127,8 @@ for m in models:
 
 
 ## prints the bad ones
+
+## TO DO THERE ARE SOME THAT DON'T ADDS UP WITH THE CLASSIFICATION 
 print("\n BAD BATCH\n")
 for i,j in zip(models,bad_pred):
     model_name,_ = i
