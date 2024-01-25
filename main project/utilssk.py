@@ -5,13 +5,6 @@ import xml.etree.ElementTree as ET
 import matplotlib.pyplot as plt
 from tqdm import tqdm
 
-DEBUG = True
-
-# debug print
-def dprint(s):
-    if DEBUG:
-        print(s)
-
 
 def load_paths(index=0, data_list_path="data_list.xml"):
     # Load data from the xml
@@ -40,11 +33,23 @@ def load_images_by_label(root_directory, dataset_type):
             if image_file == "desktop.ini":
                 continue
             image_path = os.path.join(label_path, image_file)
-            # dprint(image_path)
             labels.append(image_file)
-            images.append(cv2.imread(image_path))
+            
+            #images.append(cv2.imread(image_path))
+            img = cv2.imread(image_path)
+            # Check if image is JPEG and convert to RGB
+        
 
-    filename = labels
+            #chack if has to convert
+            if img is not None:
+                if image_file.lower().endswith(('.jpg', '.jpeg')):
+                    #img = cv2.cvtColor(img, cv2.COLOR_YCrCb2BGR)
+                    pass
+                images.append(img)
+            else:
+                print(f"Warning: Unable to read image file '{image_path}'")
+
+    filenames = labels.copy()
     
     
     if(root_directory.split("\\")[-1]=="MWD"):
@@ -57,9 +62,42 @@ def load_images_by_label(root_directory, dataset_type):
     else:
         labels = [l.split("_")[0] for l in labels]
 
-    # dprint(np.unique(labels, return_counts=True))
+    
 
-    return [images, labels, filename]
+
+    return [images, labels, filenames]
+
+def printDatasetDescription(labs,imgs):
+
+    lab, counts = np.unique(labs, return_counts=True)
+    # Supponendo che max_label_length sia la lunghezza massima tra tutte le etichette
+    max_label_length = max(len(label) for label in lab)
+    print("Label Counts:\n")
+    for label, count in zip(lab, counts):
+        print(f"{label.ljust(max_label_length)}:\t\t {count}")
+
+    print(f"\nTotal images:".ljust(max_label_length + 2), f"{len(imgs)}\n")
+
+    # Accumula le dimensioni delle immagini
+    resolutions = []
+    for img in imgs:
+        resolution = (img.shape[1], img.shape[0])  # larghezza x altezza
+        resolutions.append(resolution)
+
+    # Calcola la media e la deviazione standard delle risoluzioni
+    avg_resolution = (
+        int(np.mean([res[0] for res in resolutions])),
+        int(np.mean([res[1] for res in resolutions]))
+    )
+
+    std_resolution = (
+        int(np.std([res[0] for res in resolutions])),
+        int(np.std([res[1] for res in resolutions]))
+    )
+    
+    print(f"Average Resolution: {avg_resolution[0]}x{avg_resolution[1]}")
+    print(f"Standard Deviation Resolution: {std_resolution[0]}x{std_resolution[1]}")
+    print()
 
 
 def calculate_histogram(image):
@@ -67,7 +105,7 @@ def calculate_histogram(image):
     hist_channels = [
         cv2.calcHist([image], [i], None, [256], [0, 256]) for i in range(3)
     ]
-    return hist_channels
+    return hist_channels#assume rgb
 
 def display_images_and_histograms(images, filenames, indices_to_display,histograms):
     num_images = len(indices_to_display)
@@ -95,7 +133,9 @@ def display_images_and_histograms(images, filenames, indices_to_display,histogra
 
     plt.tight_layout()
     plt.show()
+def calculate_average_color(img):
 
+    return np.mean(img, axis=(0, 1)).astype(int)
 
 def show_images_with_labels(images, labels, index):
     img = np.array(images)[index]

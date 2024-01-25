@@ -30,10 +30,11 @@ paths = {
     "ACDC":".\\data\\ACDC\\ACDC",
     "syndrone":".\\data\\syndrone_weather\\syndrone",
     "MWD":".\\data\\MWD\\MWD",
+    "wData":".\\data\\wData\\wData",# TEST SET 
     }
 
 
-path = paths["UAVid"]
+path = paths["MWD"]
 
 print(f"\n\nWe are analyzing {path.split("\\")[-1]}\n\n")
 train_data = ut.load_images_by_label(path, "train")
@@ -42,12 +43,11 @@ test_data = ut.load_images_by_label(path, "test")
 # ut.show_images_with_labels(loaded_data[1],loaded_data[0])
 # implicitly use the labs from the train part
 imgs, labs, filenames = train_data[0], train_data[1], train_data[2]
-lab, counts = np.unique(labs, return_counts=True)
+imgs_test, labs_test, filenames_test = test_data[0], test_data[1], test_data[2]
+
 # print the label counts
-print("Label Counts:\n")
-for label, count in zip(lab, counts):
-    print(f"{label}:\t{count}")
-print(f"\nTotal images:\t{len(imgs)}\n")
+#print the status of the dataset
+ut.printDatasetDescription(labs,imgs)
 
 
 # ut.show_images_with_labels(imgs, filenames, list([10, 15, 21, 25, 30, 35]))
@@ -56,32 +56,34 @@ print("showing some images with histograms")
 
 
 # calculating histograms
-X_train = []
-X_test = []
-
+hist=[]
+hist_test=[]
 for img in train_data[0]:
-    X_train.append(ut.calculate_histogram(img))
+    hist.append(ut.calculate_histogram(img))
 
 for img in test_data[0]:
-    X_test.append(ut.calculate_histogram(img))
+    hist_test.append(ut.calculate_histogram(img))
 
-
+#
 # display image with histogram with associated image in the training data
-# ut.display_images_and_histograms(train_data[0], train_data[2], [0, 1, 2, 3], X_train)
-# ut.display_images_and_histograms(test_data[0], test_data[2], [0, 1, 2, 3], X_test)
+#ut.display_images_and_histograms(imgs, filenames, [270, 305, 310], hist)
+#ut.display_images_and_histograms(imgs_test, filenames_test, [200, 210, 220], hist_test)
+
+
 
 
 # setting the train and test labels and data
 # converting the trainand test  into array and using a better naming convention
-X_train = np.array(X_train)
-y_train = np.array(train_data[1])
+X_train = np.array(hist)
+y_train = np.array(labs)
 
-X_test = np.array(X_test)
-y_test = np.array(test_data[1])
+X_test = np.array(hist_test)
+y_test = np.array(labs_test)
 
 # reshaping
 X_train = X_train.reshape(X_train.shape[0], -1)
 X_test = X_test.reshape(X_test.shape[0], -1)
+
 
 
 
@@ -93,14 +95,14 @@ common_params_rf = {'random_state': 42}
 models = [
     ("MLP", MLPClassifier(hidden_layer_sizes=(100,), **common_params)),
     ("SVM Linear", SVC(kernel='linear', C=1.0, **common_params)),
+    ("SVM poly", SVC(kernel='poly', C=1.0, **common_params)),
     ("SVM RBF", SVC(kernel='rbf', C=1.0, gamma='scale', **common_params)),
     ("Random Forest", RandomForestClassifier(n_estimators=100, **common_params_rf))
 ]
 
 
 
-filenames = np.array(test_data[2])
-
+filenames = np.array(filenames_test)
 bad_batches = []
 bad_pred = []
 
